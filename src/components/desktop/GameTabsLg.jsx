@@ -14,14 +14,24 @@ import styles from "./GameTabsLg.module.css";
 import digitBetLogo from "./logo.webp";
 import shanLogo from "./Shan/assets/img/shan.jpg";
 import TwoDLogo from "../../assets/img/logo.png";
+import useGuestRegister from "../../hooks/useGuestRegister";
+import CredentialsDisplay from "../CredentialsDisplay";
 
 const GameTabsLg = () => {
   const { content } = useContext(LanguageContext);
-  const { user } = useContext(AuthContext);
+  const { user, updateProfile } = useContext(AuthContext);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const type = searchParams.get("type");
   const provider = searchParams.get("provider");
+  const { 
+    createGuestAccount, 
+    loading: guestLoading, 
+    error: guestError,
+    showCredentials,
+    credentials,
+    handleCloseCredentials
+  } = useGuestRegister();
   const {
     types: gameTabs,
     providersData: providers,
@@ -34,7 +44,7 @@ const GameTabsLg = () => {
   } = useContext(GameContext);
   // const gameProvider = providers && providers.find((p) => p?.code == provider)?.id;
 
-  // const providerUrl = https://www.delightmyanmar99.pro/api/providers/
+  
 
   const baseImageMap = {
     1: "/images/Final_All/Slot/SlotPng.png",
@@ -83,7 +93,7 @@ const GameTabsLg = () => {
       <div className="flex overflow-x-auto gap-3 pb-4 scrollbar-hide snap-x snap-mandatory">
         {/** Each tab is a snap-center, touch-friendly, shadowed card */}
         {/* 2D Tab */}
-         <button
+        {/* <button
           className={`relative flex flex-col items-center justify-center min-w-[68px] p-1 rounded-2xl transition-all duration-300 shadow-lg bg-gradient-to-br border-2 border-transparent group snap-center active:scale-95 focus:outline-none focus:ring-2 focus:ring-yellow-400 select-none
             ${type === "2d"
               ? "from-yellow-400/90 to-orange-500/90 border-yellow-400 ring-2 ring-yellow-300/60 shadow-2xl"
@@ -104,7 +114,7 @@ const GameTabsLg = () => {
           <span className="mt-2 px-3 py-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-600 text-black font-bold text-xs rounded-full shadow text-center max-w-[90%] truncate whitespace-nowrap border border-yellow-300 group-hover:scale-105 transition-transform duration-200">
             2D
           </span>
-        </button> 
+        </button> */}
 
         {/* Shan Game Tab */}
         {/* <button
@@ -190,6 +200,28 @@ const GameTabsLg = () => {
       </div>
 
       {/* Content Area */}
+      {!user && (
+        <div className="flex flex-col gap-4 p-6 bg-gradient-to-r from-slate-800/50 to-slate-900/50 rounded-lg border border-yellow-400/30">
+          <h1 className="text-2xl font-bold text-yellow-400">Create Guest Account</h1>
+          <p className="text-sm text-white">
+            Create a guest account to start playing immediately. No registration required!
+          </p>
+          <button 
+            className={`bg-yellow-400 text-black px-6 py-3 rounded-md font-semibold hover:bg-yellow-300 transition-colors duration-200 ${
+              guestLoading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'
+            }`}
+            onClick={createGuestAccount}
+            disabled={guestLoading}
+          >
+            {guestLoading ? 'Creating Account...' : 'Create Guest Account'}
+          </button>
+          {guestError && (
+            <p className="text-red-400 text-sm mt-2">
+              {guestError}
+            </p>
+          )}
+        </div>
+      )}
       <div className="space-y-6">
         {/* Game Lists */}
         {type && provider && <GameList loading={loading} />}
@@ -229,6 +261,15 @@ const GameTabsLg = () => {
               )
           )}
       </div>
+      
+      {/* Credentials Modal */}
+      {showCredentials && (
+        <CredentialsDisplay
+          username={credentials.username}
+          password={credentials.password}
+          onClose={handleCloseCredentials}
+        />
+      )}
     </div>
   );
 };
