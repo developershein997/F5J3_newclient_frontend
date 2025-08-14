@@ -27,7 +27,7 @@ const ThreeDConfirmPage = () => {
       const storedBets = localStorage.getItem('threed_bets');
       if (storedBets) {
         const parsedBets = JSON.parse(storedBets);
-        if (parsedBets && parsedBets.digits && parsedBets.digits.length > 0) {
+        if (parsedBets && parsedBets.amounts && parsedBets.amounts.length > 0) {
           setBetData([parsedBets]);
           setTotal(parsedBets.totalAmount || 0);
           setIsValid(true);
@@ -69,8 +69,8 @@ const ThreeDConfirmPage = () => {
           'Authorization': `Bearer ${user.token}`
         },
         body: JSON.stringify({
-          bets: betData,
-          totalAmount: total
+          totalAmount: total,
+          amounts: betData[0].amounts
         })
       });
 
@@ -134,17 +134,14 @@ const ThreeDConfirmPage = () => {
       const newAmount = parseFloat(editAmount);
       if (newAmount > 0) {
         const updatedBets = [...betData];
-        updatedBets[editingIndex].amount = newAmount;
-        
-        // Recalculate total: (digits × amount) + (digits × permutation amount)
-        const totalAmount = (updatedBets[editingIndex].digits.length * newAmount) + 
-                           (updatedBets[editingIndex].permutationAmount ? 
-                            (updatedBets[editingIndex].digits.length * updatedBets[editingIndex].permutationAmount) : 0);
-        
-        updatedBets[editingIndex].totalAmount = totalAmount;
+        // Update all amounts in the amounts array
+        updatedBets[0].amounts.forEach(item => {
+          item.amount = newAmount;
+        });
+        updatedBets[0].totalAmount = updatedBets[0].amounts.reduce((sum, item) => sum + item.amount, 0);
         
         setBetData(updatedBets);
-        setTotal(updatedBets.reduce((sum, bet) => sum + bet.totalAmount, 0));
+        setTotal(updatedBets[0].totalAmount);
         
         // Update localStorage
         localStorage.setItem('threed_bets', JSON.stringify(updatedBets[0]));
@@ -233,12 +230,12 @@ const ThreeDConfirmPage = () => {
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm text-gray-300">Numbers:</span>
                 <div className="flex flex-wrap gap-1">
-                  {bet.digits.map((digit, digitIndex) => (
+                  {bet.amounts.map((item, itemIndex) => (
                     <span
-                      key={digitIndex}
+                      key={itemIndex}
                       className="bg-yellow-400 text-black px-2 py-1 rounded text-sm font-bold"
                     >
-                      {digit}
+                      {item.num}
                     </span>
                   ))}
                 </div>
@@ -271,7 +268,7 @@ const ThreeDConfirmPage = () => {
                  ) : (
                    <div className="flex items-center gap-2">
                      <span className="text-white font-semibold">
-                       {bet.amount.toLocaleString()} Kyats
+                       {bet.amounts[0].amount.toLocaleString()} Kyats per number
                      </span>
                      <button
                        onClick={() => handleEdit(index)}
@@ -290,20 +287,11 @@ const ThreeDConfirmPage = () => {
                </div>
 
                <div className="flex justify-between items-center mb-2">
-                 <span className="text-sm text-gray-300">Total digits:</span>
+                 <span className="text-sm text-gray-300">Total numbers:</span>
                  <span className="text-white font-semibold">
-                   {bet.digits.length} numbers
+                   {bet.amounts.length} numbers
                  </span>
                </div>
-
-               {bet.permutationAmount > 0 && (
-                 <div className="flex justify-between items-center mb-2">
-                   <span className="text-sm text-gray-300">Permutation amount per digit:</span>
-                   <span className="text-white font-semibold">
-                     {bet.permutationAmount.toLocaleString()} Kyats
-                   </span>
-                 </div>
-               )}
 
                <div className="flex justify-between items-center pt-2 border-t border-gray-600">
                  <span className="text-sm text-gray-300">Total:</span>

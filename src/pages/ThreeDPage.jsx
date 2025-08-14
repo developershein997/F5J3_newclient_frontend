@@ -142,17 +142,18 @@ const ThreeDPage = () => {
       return;
     }
 
-    // Calculate total amount: (original digits × amount) + (permutation digits × permutation amount)
-    const originalDigits = selectedDigits.length;
-    const totalAmount = (originalDigits * parseFloat(amount)) + 
-                       (permutationAmount ? (originalDigits * parseFloat(permutationAmount)) : 0);
+    // Create amounts array for API
+    const amounts = selectedDigits.map(digit => ({
+      num: digit,
+      amount: parseFloat(amount)
+    }));
+
+    // Calculate total amount
+    const totalAmount = selectedDigits.length * parseFloat(amount);
 
     const betData = {
-      digits: selectedDigits,
-      amount: parseFloat(amount),
-      permutationAmount: permutationAmount ? parseFloat(permutationAmount) : 0,
       totalAmount: totalAmount,
-      originalDigits: originalDigits,
+      amounts: amounts,
       timestamp: new Date().toISOString()
     };
 
