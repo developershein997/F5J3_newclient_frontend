@@ -93,7 +93,7 @@ const GameTabsLg = () => {
       <div className="flex overflow-x-auto gap-3 pb-4 scrollbar-hide snap-x snap-mandatory">
         {/** Each tab is a snap-center, touch-friendly, shadowed card */}
         {/* 2D Tab */}
-        {/* <button
+        <button
           className={`relative flex flex-col items-center justify-center min-w-[68px] p-1 rounded-2xl transition-all duration-300 shadow-lg bg-gradient-to-br border-2 border-transparent group snap-center active:scale-95 focus:outline-none focus:ring-2 focus:ring-yellow-400 select-none
             ${type === "2d"
               ? "from-yellow-400/90 to-orange-500/90 border-yellow-400 ring-2 ring-yellow-300/60 shadow-2xl"
@@ -114,7 +114,7 @@ const GameTabsLg = () => {
           <span className="mt-2 px-3 py-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-600 text-black font-bold text-xs rounded-full shadow text-center max-w-[90%] truncate whitespace-nowrap border border-yellow-300 group-hover:scale-105 transition-transform duration-200">
             2D
           </span>
-        </button> */}
+        </button>
 
         {/* Shan Game Tab */}
         {/* <button
@@ -161,6 +161,30 @@ const GameTabsLg = () => {
           </div>
           <span className="mt-2 px-3 py-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-600 text-black font-bold text-xs rounded-full shadow text-center max-w-[90%] truncate whitespace-nowrap border border-yellow-300 group-hover:scale-105 transition-transform duration-200">
             Hot Games
+          </span>
+        </button>
+
+        {/* 3D Tab */}
+        <button
+          className={`relative flex flex-col items-center justify-center min-w-[68px] p-1 rounded-2xl transition-all duration-300 shadow-lg bg-gradient-to-br border-2 border-transparent group snap-center active:scale-95 focus:outline-none focus:ring-2 focus:ring-yellow-400 select-none
+            ${type === "3d"
+              ? "from-yellow-400/90 to-orange-500/90 border-yellow-400 ring-2 ring-yellow-300/60 shadow-2xl"
+              : "from-slate-800/80 to-slate-900/80 hover:from-yellow-200/30 hover:to-orange-200/30 hover:border-yellow-400/60"}
+          `}
+          style={{boxShadow: '0 2px 12px 0 rgba(0,0,0,0.14)'}}
+          onClick={() => navigate("/3d")}
+        >
+          <div className="relative w-14 h-14 aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-400/70 via-white/10 to-yellow-600/70 p-1 group-hover:from-yellow-400 group-hover:to-orange-400 group-hover:shadow-2xl transition-all duration-200 flex items-center justify-center">
+            <div className="w-full h-full bg-black/60 rounded-2xl flex items-center justify-center group-hover:bg-black/80 transition-all duration-200">
+              <img
+                src={TwoDLogo}
+                className="w-10 h-10 object-contain rounded-2xl group-hover:scale-105 transition-transform duration-200"
+                alt="3D"
+              />
+            </div>
+          </div>
+          <span className="mt-2 px-3 py-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-600 text-black font-bold text-xs rounded-full shadow text-center max-w-[90%] truncate whitespace-nowrap border border-yellow-300 group-hover:scale-105 transition-transform duration-200">
+            3D
           </span>
         </button>
 

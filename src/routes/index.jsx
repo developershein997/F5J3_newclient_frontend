@@ -17,6 +17,8 @@ import ShanGame from "../components/desktop/Shan/ShanGame";
 import TwoDPage from "../pages/TwoDPage";
 import TwoDBetPage from "../pages/TwoDBetPage";
 import TwoDConfirmPage from "../pages/TwoDConfirmPage";
+import ThreeDPage from "../pages/ThreeDPage";
+import ThreeDConfirmPage from "../pages/ThreeDConfirmPage";
 import WalletPage from "../pages/Wallet";
 import InternalTransfer from "../pages/Slot/InternalTransfer";
 import WalletHistoryPage from "../pages/Slot/WalletHistory";
@@ -92,6 +94,14 @@ export const router = createBrowserRouter([
         {
           path: '/2d/confirm',
           element: <TwoDConfirmPage />
+        },
+        {
+          path: '/3d',
+          element: <ThreeDPage />
+        },
+        {
+          path: '/3d/confirm',
+          element: <ThreeDConfirmPage />
         }, 
         {
           path: '/morning-bet-slip',
