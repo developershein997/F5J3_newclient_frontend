@@ -190,28 +190,53 @@ localStorage.removeItem('threed_bets');
 
 ## 🔌 API Integration
 
-### Mock API Endpoints
+### Backend Integration Details
+
+The frontend communicates with the following Laravel backend components:
+
+#### **ThreeDController** (`App\Http\Controllers\Api\ThreeDController`)
+- Handles all 3D betting API endpoints
+- Validates request data and user authentication
+- Delegates core betting logic to `ThreeDPlayService`
+
+#### **ThreeDPlayService** (`App\Services\ThreeDPlayService`)
+- Core business logic for 3D betting
+- Handles bet validation, limits checking, and database operations
+- Manages wallet transactions and slip generation
+
+#### **Key Backend Features:**
+- **Draw Session Management**: Automatically determines current open draw session from database
+- **Limit Checking**: Enforces overall and personal betting limits
+- **Closed Digit Validation**: Prevents betting on closed 3D digits
+- **Slip Generation**: Creates unique slip numbers for bet tracking
+- **Wallet Integration**: Handles balance deductions and transactions
+- **Break Group Calculation**: Automatically calculates break groups for each bet
+
+### API Endpoints
 ```javascript
 // Bet submission
-POST /api/threed-bet
+POST https://www.delightmyanmar99.pro/api/threed-bet
 {
-  "digits": ["123", "321"],
-  "amount": 100,
-  "permutationAmount": 100,
-  "totalAmount": 200
+  "totalAmount": 700,
+  "amounts": [
+    {
+      "num": "354",
+      "amount": 100
+    }
+  ]
 }
 
 // User profile update
-POST /api/user/profile
-{
-  "wallet": "updated_balance"
-}
+GET https://www.delightmyanmar99.pro/api/user/profile
 ```
+
+**Note**: Draw session is automatically determined from the current open session in the database, so no need to send `drawSession` in the request body.
 
 ### Error Handling
 - **Network Errors**: Try-catch blocks with user feedback
 - **Validation Errors**: Input validation with toast notifications
 - **API Errors**: Response status checking and error display
+- **Backend Errors**: Specific error messages from Laravel backend
 
 ## 📡 Postman Data Structure
 
@@ -221,7 +246,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ### Environment Variables
 ```json
 {
-  "base_url": "http://localhost:3000",
+  "base_url": "https://www.delightmyanmar99.pro/api",
   "api_version": "v1",
   "auth_token": "{{auth_token}}",
   "user_id": "{{user_id}}"
@@ -231,7 +256,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ### 1. Authentication Endpoints
 
 #### 1.1 Guest Account Creation
-**POST** `{{base_url}}/api/auth/guest-register`
+**POST** `{{base_url}}/auth/guest-register`
 
 **Headers:**
 ```json
@@ -282,7 +307,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ```
 
 #### 1.2 User Login
-**POST** `{{base_url}}/api/auth/login`
+**POST** `{{base_url}}/auth/login`
 
 **Request Body:**
 ```json
@@ -314,7 +339,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ### 2. 3D Betting Endpoints
 
 #### 2.1 Submit 3D Bet
-**POST** `{{base_url}}/api/threed-bet`
+**POST** `{{base_url}}/threed-bet`
 
 **Headers:**
 ```json
@@ -343,19 +368,19 @@ The 3D Betting System API collection includes all endpoints for betting operatio
       "amount": 100
     },
     {
-      "num": "543",
+      "num": "159",
       "amount": 100
     },
     {
-      "num": "534",
+      "num": "201",
       "amount": 100
     },
     {
-      "num": "355",
+      "num": "987",
       "amount": 100
     },
     {
-      "num": "454",
+      "num": "589",
       "amount": 100
     }
   ]
@@ -365,71 +390,23 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 **Response (Success - 201):**
 ```json
 {
-  "success": true,
-  "message": "Bet placed successfully",
-  "data": {
-    "bet_id": "bet_12345",
-    "user_id": "guest_12345",
-    "total_amount": 700,
-    "bet_count": 7,
-    "status": "pending",
-    "created_at": "2024-12-20T10:30:00Z",
-    "draw_time": "2024-12-20T14:30:00Z",
-    "bets": [
-      {
-        "id": "bet_detail_1",
-        "num": "354",
-        "amount": 100
-      },
-      {
-        "id": "bet_detail_2",
-        "num": "453",
-        "amount": 100
-      },
-      {
-        "id": "bet_detail_3",
-        "num": "435",
-        "amount": 100
-      },
-      {
-        "id": "bet_detail_4",
-        "num": "543",
-        "amount": 100
-      },
-      {
-        "id": "bet_detail_5",
-        "num": "534",
-        "amount": 100
-      },
-      {
-        "id": "bet_detail_6",
-        "num": "355",
-        "amount": 100
-      },
-      {
-        "id": "bet_detail_7",
-        "num": "454",
-        "amount": 100
-      }
-    ]
-  }
+  "status": "Request was successful.",
+  "message": "ထီအောင်မြင်စွာ ထိုးပြီးပါပြီ။",
+  "data": null
 }
 ```
 
 **Response (Error - 400):**
 ```json
 {
-  "success": false,
-  "message": "Invalid bet data",
-  "errors": {
-    "totalAmount": ["Insufficient wallet balance"],
-    "amounts": ["Invalid 3-digit number format in amounts array"]
-  }
+  "status": "Request failed.",
+  "message": "လက်ကျန်ငွေ မလုံလောက်ပါ။",
+  "data": null
 }
 ```
 
 #### 2.2 Get Bet History
-**GET** `{{base_url}}/api/threed-bet/history?page=1&limit=10&status=all`
+**GET** `{{base_url}}/threed-bet/history?page=1&limit=10&status=all`
 
 **Headers:**
 ```json
@@ -483,7 +460,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ```
 
 #### 2.3 Get Bet Details
-**GET** `{{base_url}}/api/threed-bet/{{bet_id}}`
+**GET** `{{base_url}}/threed-bet/{{bet_id}}`
 
 **Response (Success - 200):**
 ```json
@@ -540,7 +517,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ### 3. User Management Endpoints
 
 #### 3.1 Get User Profile
-**GET** `{{base_url}}/api/user/profile`
+**GET** `{{base_url}}/user/profile`
 
 **Headers:**
 ```json
@@ -572,7 +549,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ```
 
 #### 3.2 Update User Profile
-**PUT** `{{base_url}}/api/user/profile`
+**PUT** `{{base_url}}/user/profile`
 
 **Request Body:**
 ```json
@@ -603,7 +580,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ### 4. Game Data Endpoints
 
 #### 4.1 Get Break Groups
-**GET** `{{base_url}}/api/threed/break-groups`
+**GET** `{{base_url}}/threed/break-groups`
 
 **Response (Success - 200):**
 ```json
@@ -635,7 +612,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ```
 
 #### 4.2 Get Quick Selection Patterns
-**GET** `{{base_url}}/api/threed/quick-patterns`
+**GET** `{{base_url}}/threed/quick-patterns`
 
 **Response (Success - 200):**
 ```json
@@ -669,7 +646,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ### 5. System Endpoints
 
 #### 5.1 Get System Status
-**GET** `{{base_url}}/api/system/status`
+**GET** `{{base_url}}/system/status`
 
 **Response (Success - 200):**
 ```json
@@ -687,7 +664,7 @@ The 3D Betting System API collection includes all endpoints for betting operatio
 ```
 
 #### 5.2 Get Draw Results
-**GET** `{{base_url}}/api/system/draw-results?date=2024-12-20`
+**GET** `{{base_url}}/system/draw-results?date=2024-12-20`
 
 **Response (Success - 200):**
 ```json

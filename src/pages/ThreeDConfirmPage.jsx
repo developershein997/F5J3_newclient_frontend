@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import { MdDelete, MdEdit, MdCheck } from 'react-icons/md';
 import { IoWalletOutline } from "react-icons/io5";
 import Spinner from '../components/Loader/Spinner';
+import BASE_URL from '../hooks/baseUrl';
 
 const ThreeDConfirmPage = () => {
   const { content } = useContext(LanguageContext);
@@ -61,35 +62,39 @@ const ThreeDConfirmPage = () => {
     setLoading(true);
 
     try {
-      // Mock API call for 3D betting
-      const response = await fetch('/api/threed-bet', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`
-        },
-        body: JSON.stringify({
-          totalAmount: total,
-          amounts: betData[0].amounts
-        })
-      });
+             // API call for 3D betting
+       const response = await fetch(`${BASE_URL}/threed-bet`, {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+           'Authorization': `Bearer ${localStorage.getItem('token')}`,
+           'Accept': 'application/json',
+           'X-Requested-With': 'XMLHttpRequest'
+         },
+         body: JSON.stringify({
+           totalAmount: total,
+           amounts: betData[0].amounts
+         })
+       });
 
-      if (response.ok) {
+      const responseData = await response.json();
+      
+      if (response.ok && responseData.status === "Request was successful.") {
         // Update user profile/balance
         try {
-          const profileRes = await fetch('/api/user/profile', {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${user.token}`
-            }
-          });
+                     const profileRes = await fetch('/api/user', {
+             method: 'GET',
+             headers: {
+               'Authorization': `Bearer ${localStorage.getItem('token')}`
+             }
+           });
 
           if (profileRes.ok) {
             const contentType = profileRes.headers.get("content-type");
             if (contentType && contentType.includes("application/json")) {
               const profileData = await profileRes.json();
-              if (updateProfile) {
-                updateProfile(profileData);
+              if (profileData && profileData.data && updateProfile) {
+                updateProfile(profileData.data);
               }
             } else {
               console.warn('Profile response is not JSON, skipping profile update');
@@ -103,19 +108,21 @@ const ThreeDConfirmPage = () => {
         localStorage.removeItem('threed_bets');
         
         if (toast && typeof toast.success === 'function') {
-          toast.success('3D bet placed successfully!');
+          toast.success(responseData.message || 'ထီအောင်မြင်စွာ ထိုးပြီးပါပြီ။');
         }
         
         setTimeout(() => {
           navigate('/3d');
         }, 2000);
       } else {
-        throw new Error('Failed to place bet');
+        // Handle error response from backend
+        const errorMessage = responseData.message || 'Failed to place bet';
+        throw new Error(errorMessage);
       }
     } catch (error) {
       console.error('Error placing bet:', error);
       if (toast && typeof toast.error === 'function') {
-        toast.error('Failed to place bet. Please try again.');
+        toast.error(error.message || 'Failed to place bet. Please try again.');
       }
     } finally {
       setLoading(false);
