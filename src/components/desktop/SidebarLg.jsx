@@ -64,6 +64,7 @@ const SidebarLg = ({ show, onClose }) => {
     { img: contact, name: content?.nav?.contact?.toUpperCase(), link: '/contact' },
     { img: ranking, name: '2D', link: '/2d' },
     { img: ranking, name: '3D', link: '/3d' },
+    { img: log, name: '3D History', link: '/3d/history' },
     // { img: log, name: 'MORNING BET SLIP', link: '/morning-bet-slip' }
   ];
   const items = [

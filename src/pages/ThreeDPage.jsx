@@ -164,6 +164,20 @@ const ThreeDPage = () => {
 
   return (
     <div className="min-h-screen bg-[#101223] text-white p-4">
+      {/* Header */}
+      <div className="max-w-md mx-auto mb-6">
+        <div className="flex justify-between items-center">
+          <button
+            onClick={() => navigate('/')}
+            className="text-yellow-400 hover:text-yellow-300"
+          >
+            ← Back to Home
+          </button>
+          <h1 className="text-xl font-bold text-yellow-400">3D Betting</h1>
+          <div className="w-8"></div>
+        </div>
+      </div>
+
       {/* Wallet Section */}
       <div className="max-w-md mx-auto mb-6">
         <div className="flex justify-around items-center bg-[#12486b] border-2 border-[#576265] rounded-3xl p-3">
@@ -204,7 +218,7 @@ const ThreeDPage = () => {
 
               {/* Quick Action Buttons */}
         <div className="max-w-md mx-auto mb-6">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <button 
               onClick={() => setShowQuickSelect(!showQuickSelect)}
               className="bg-[#12486b] hover:bg-[#0d3a5a] text-white py-3 px-4 rounded-lg font-medium transition-colors"
@@ -216,6 +230,12 @@ const ThreeDPage = () => {
               className="bg-[#12486b] hover:bg-[#0d3a5a] text-white py-3 px-4 rounded-lg font-medium transition-colors"
             >
               အောက်၂လုံးထိုးရန်
+            </button>
+            <button 
+              onClick={() => navigate('/3d/history')}
+              className="bg-[#12486b] hover:bg-[#0d3a5a] text-white py-3 px-4 rounded-lg font-medium transition-colors"
+            >
+              3D History
             </button>
           </div>
         </div>

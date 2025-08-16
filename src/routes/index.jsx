@@ -19,6 +19,7 @@ import TwoDBetPage from "../pages/TwoDBetPage";
 import TwoDConfirmPage from "../pages/TwoDConfirmPage";
 import ThreeDPage from "../pages/ThreeDPage";
 import ThreeDConfirmPage from "../pages/ThreeDConfirmPage";
+import ThreeDBetSlipDisplay from "../components/ThreeDBetSlipDisplay";
 import WalletPage from "../pages/Wallet";
 import InternalTransfer from "../pages/Slot/InternalTransfer";
 import WalletHistoryPage from "../pages/Slot/WalletHistory";
@@ -102,7 +103,11 @@ export const router = createBrowserRouter([
         {
           path: '/3d/confirm',
           element: <ThreeDConfirmPage />
-        }, 
+        },
+        {
+          path: '/3d/history',
+          element: <ThreeDBetSlipDisplay />
+        },
         {
           path: '/morning-bet-slip',
           element: <MorningBetSlipDisplay />
