@@ -546,9 +546,9 @@ const TwoDBetPage = () => {
                 {/* Number Grid */}
                 <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl border border-blue-200 mb-8 p-4 relative">
                     {/* Info icon for color codes */}
-                    <button onClick={handleShow} className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-gradient-to-br from-yellow-200 to-pink-200 shadow border border-yellow-300 hover:scale-110 transition-all">
+                    {/* <button onClick={handleShow} className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-gradient-to-br from-yellow-200 to-pink-200 shadow border border-yellow-300 hover:scale-110 transition-all">
                         <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#fff"/><path d="M12 8v4m0 4h.01" stroke="#FF7A00" strokeWidth="2" strokeLinecap="round"/></svg>
-                    </button>
+                    </button> */}
                     <div className="h-96 overflow-y-auto rounded-2xl border border-blue-100 bg-white/60 p-3 shadow-inner">
                         <div className="grid grid-cols-5 gap-3">
                             {numbers_static.two_digits.map((item, idx) => {
@@ -565,7 +565,7 @@ const TwoDBetPage = () => {
                                     >
                                         <span className="font-extrabold text-lg text-gray-800 drop-shadow-sm tracking-wide">{item.two_digit}</span>
                                         <div className="w-8 h-1.5 rounded-full mt-1 mb-1 overflow-hidden bg-gray-200">
-                                            <div className="h-full rounded-full transition-all duration-300 bg-blue-400" style={{ width: `${Math.min(percent, 100)}%` }}></div>
+                                            {/* <div className="h-full rounded-full transition-all duration-300 bg-blue-400" style={{ width: `${Math.min(percent, 100)}%` }}></div> */}
                                         </div>
                                     </button>
                                 );

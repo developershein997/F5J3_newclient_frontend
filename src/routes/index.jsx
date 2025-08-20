@@ -28,6 +28,7 @@ import ExchangeTranLog from "../components/desktop/ExchangeTranLog";
 import MorningBetSlipDisplay from "../components/MorningBetSlipDisplay";
 import EveningBtSlipDisplay from "../components/EveningBtSlipDisplay";
 import TwoDDailyWinner from "../components/TwoDDailyWinner";
+import ThreeDWinner from "../components/ThreeDWinner";
 
 
 export const router = createBrowserRouter([
@@ -107,6 +108,10 @@ export const router = createBrowserRouter([
         {
           path: '/3d/history',
           element: <ThreeDBetSlipDisplay />
+        },
+         {
+          path: '/3d/winner',
+          element: <ThreeDWinner />
         },
         {
           path: '/morning-bet-slip',

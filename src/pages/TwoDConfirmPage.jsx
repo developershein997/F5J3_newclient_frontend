@@ -230,7 +230,7 @@ const TwoDConfirmPage = () => {
                     <div className="flex justify-between items-center mb-4">
                         <h5 className="font-bold text-lg mb-0">ရွေးချယ်ထားသောဂဏန်းများ</h5>
                         <button className="px-4 py-2 rounded-lg bg-blue-500 text-white font-semibold shadow hover:bg-blue-600 transition" onClick={() => navigate(-1)}>
-                            ထပ်ထည့်မည်
+                            Back
                         </button>
                     </div>
                     <div className="divide-y divide-blue-100">

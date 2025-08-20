@@ -6,7 +6,7 @@ import BASE_URL from '../hooks/baseUrl';
 import { FaTrophy, FaCalendarAlt, FaClock, FaUsers, FaMoneyBillWave, FaStar } from 'react-icons/fa';
 import { MdEmojiEvents, MdTrendingUp } from 'react-icons/md';
 
-const TwoDDailyWinner = () => {
+const ThreeDWinner = () => {
     const { auth, user } = useContext(AuthContext);
     const { content } = useContext(LanguageContext);
     const navigate = useNavigate();
@@ -31,9 +31,9 @@ const TwoDDailyWinner = () => {
         setError(null);
 
         try {
-            let url = `${BASE_URL}/two-d-daily-winners?date=${selectedDate}`;
+            let url = `${BASE_URL}/threed-daily-winners?date=${selectedDate}`;
             if (selectedSession) {
-                url += `&session=${selectedSession}`;
+                url += `&draw_session=${selectedSession}`;
             }
 
             const response = await fetch(url, {
@@ -82,18 +82,33 @@ const TwoDDailyWinner = () => {
         }).format(amount);
     };
 
-    const getSessionText = (session) => {
-        return session === 'morning' ? 'မနက်ပိုင်း' : 'ညနေပိုင်း';
+    const getSessionText = (drawSession) => {
+        // Extract session from draw_session format (e.g., "2025-08-16" -> "morning" or "evening")
+        // You may need to adjust this logic based on your actual draw_session format
+        if (drawSession.includes('morning') || drawSession.includes('09') || drawSession.includes('12')) {
+            return 'မနက်ပိုင်း';
+        } else if (drawSession.includes('evening') || drawSession.includes('15') || drawSession.includes('18')) {
+            return 'ညနေပိုင်း';
+        }
+        return drawSession; // Fallback to show the original draw_session
     };
 
-    const getSessionColor = (session) => {
-        return session === 'morning' 
-            ? 'from-blue-400 to-blue-600' 
-            : 'from-yellow-400 to-orange-500';
+    const getSessionColor = (drawSession) => {
+        if (drawSession.includes('morning') || drawSession.includes('09') || drawSession.includes('12')) {
+            return 'from-blue-400 to-blue-600';
+        } else if (drawSession.includes('evening') || drawSession.includes('15') || drawSession.includes('18')) {
+            return 'from-yellow-400 to-orange-500';
+        }
+        return 'from-purple-400 to-purple-600';
     };
 
-    const getSessionIcon = (session) => {
-        return session === 'morning' ? '🌅' : '🌆';
+    const getSessionIcon = (drawSession) => {
+        if (drawSession.includes('morning') || drawSession.includes('09') || drawSession.includes('12')) {
+            return '🌅';
+        } else if (drawSession.includes('evening') || drawSession.includes('15') || drawSession.includes('18')) {
+            return '🌆';
+        }
+        return '🎯'; // Default icon
     };
 
     if (!auth) {
@@ -119,11 +134,11 @@ const TwoDDailyWinner = () => {
                         <h1 className="text-3xl font-bold text-white mb-2 flex items-center justify-center gap-3">
                             <FaTrophy className="text-yellow-400" />
                             <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-                                {content?.two_d_winners?.title || '2D Daily Winners'}
+                                {content?.three_d_winners?.title || '3D Daily Winners'}
                             </span>
                             <FaTrophy className="text-yellow-400" />
                         </h1>
-                        <p className="text-gray-300 text-sm">{content?.two_d_winners?.subtitle || 'ထိုးဂဏန်းအနိုင်ရရှိသူများ'}</p>
+                        <p className="text-gray-300 text-sm">{content?.three_d_winners?.subtitle || 'ထိုးဂဏန်းအနိုင်ရရှိသူများ'}</p>
                     </div>
                     
                     <div className="w-20"></div> {/* Spacer for centering */}
@@ -136,7 +151,7 @@ const TwoDDailyWinner = () => {
                         <div className="space-y-2">
                             <label className="text-white font-semibold flex items-center gap-2">
                                 <FaCalendarAlt className="text-blue-400" />
-                                {content?.two_d_winners?.date || 'Date'}
+                                {content?.three_d_winners?.date || 'Date'}
                             </label>
                             <input
                                 type="date"
@@ -150,16 +165,16 @@ const TwoDDailyWinner = () => {
                         <div className="space-y-2">
                             <label className="text-white font-semibold flex items-center gap-2">
                                 <FaClock className="text-green-400" />
-                                {content?.two_d_winners?.session || 'Session'}
+                                {content?.three_d_winners?.session || 'Session'}
                             </label>
                             <select
                                 value={selectedSession}
                                 onChange={(e) => setSelectedSession(e.target.value)}
                                 className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
                             >
-                                <option value="">{content?.two_d_winners?.all_sessions || 'All Sessions'}</option>
-                                <option value="morning">{content?.two_d_winners?.morning || 'မနက်ပိုင်း'}</option>
-                                <option value="evening">{content?.two_d_winners?.evening || 'ညနေပိုင်း'}</option>
+                                <option value="">{content?.three_d_winners?.all_sessions || 'All Sessions'}</option>
+                                <option value="morning">{content?.three_d_winners?.morning || 'မနက်ပိုင်း'}</option>
+                                <option value="evening">{content?.three_d_winners?.evening || 'ညနေပိုင်း'}</option>
                             </select>
                         </div>
 
@@ -167,14 +182,14 @@ const TwoDDailyWinner = () => {
                         <div className="space-y-2">
                             <label className="text-white font-semibold flex items-center gap-2">
                                 <MdTrendingUp className="text-purple-400" />
-                                {content?.two_d_winners?.actions || 'Actions'}
+                                {content?.three_d_winners?.actions || 'Actions'}
                             </label>
                             <button
                                 onClick={fetchWinners}
                                 disabled={loading}
                                 className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {loading ? (content?.two_d_winners?.loading || 'Loading...') : (content?.two_d_winners?.refresh || 'Refresh')}
+                                {loading ? (content?.three_d_winners?.loading || 'Loading...') : (content?.three_d_winners?.refresh || 'Refresh')}
                             </button>
                         </div>
                     </div>
@@ -212,16 +227,16 @@ const TwoDDailyWinner = () => {
                                 >
                                     <div className="flex items-center justify-between mb-6">
                                         <div className="flex items-center gap-4">
-                                            <div className={`text-2xl ${getSessionIcon(result.session)}`}></div>
+                                            <div className={`text-2xl ${getSessionIcon(result.draw_session)}`}></div>
                                             <div>
                                                 <h3 className="text-xl font-bold text-white">
-                                                    {getSessionText(result.session)}
+                                                    {getSessionText(result.draw_session)}
                                                 </h3>
                                                 <p className="text-gray-300">{result.date}</p>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <div className="text-sm text-gray-400">{content?.two_d_winners?.winning_number || 'Winning Number'}</div>
+                                            <div className="text-sm text-gray-400">{content?.three_d_winners?.winning_number || 'Winning Number'}</div>
                                             <div className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
                                                 {result.win_digit}
                                             </div>
@@ -233,7 +248,7 @@ const TwoDDailyWinner = () => {
                                         <div className="flex items-center gap-2 mb-4">
                                             <FaUsers className="text-blue-400" />
                                             <h4 className="text-lg font-semibold text-white">
-                                                {content?.two_d_winners?.winners || 'Winners'} ({result.winners?.length || 0})
+                                                {content?.three_d_winners?.winners || 'Winners'} ({result.winners?.length || 0})
                                             </h4>
                                         </div>
 
@@ -251,15 +266,15 @@ const TwoDDailyWinner = () => {
                                                                 </div>
                                                                 <div>
                                                                     <h5 className="text-lg font-semibold text-white">
-                                                                        {winner.member_name}
+                                                                        {winner.bet_number || winner.member_name || `Winner ${winnerIndex + 1}`}
                                                                     </h5>
                                                                     <p className="text-gray-400 text-sm">
-                                                                        {content?.two_d_winners?.bet_amount || 'Bet Amount'}: {formatCurrency(winner.bet_amount)} Ks
+                                                                        {content?.three_d_winners?.bet_amount || 'Bet Amount'}: {formatCurrency(winner.total_bet || winner.bet_amount)} Ks
                                                                     </p>
                                                                 </div>
                                                             </div>
                                                             <div className="text-right">
-                                                                <div className="text-sm text-gray-400">{content?.two_d_winners?.win_amount || 'Win Amount'}</div>
+                                                                <div className="text-sm text-gray-400">{content?.three_d_winners?.win_amount || 'Win Amount'}</div>
                                                                 <div className="text-2xl font-bold text-green-400">
                                                                     {formatCurrency(winner.win_amount)} Ks
                                                                 </div>
@@ -271,7 +286,7 @@ const TwoDDailyWinner = () => {
                                         ) : (
                                             <div className="text-center py-8">
                                                 <MdEmojiEvents className="text-6xl text-gray-500 mx-auto mb-4" />
-                                                <p className="text-gray-400 text-lg">{content?.two_d_winners?.no_winners || 'No winners for this session'}</p>
+                                                <p className="text-gray-400 text-lg">{content?.three_d_winners?.no_winners || 'No winners for this session'}</p>
                                             </div>
                                         )}
                                     </div>
@@ -292,4 +307,4 @@ const TwoDDailyWinner = () => {
     );
 };
 
-export default TwoDDailyWinner; 
+export default ThreeDWinner;

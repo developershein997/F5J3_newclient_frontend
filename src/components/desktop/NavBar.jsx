@@ -24,7 +24,7 @@ import useLogout from "../../hooks/useLogout";
 import AdsVideo from "../../pages/AdsVideo";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaExchangeAlt, FaGamepad, FaHome, FaUser, FaWallet, FaGift, FaPhone, FaVideo, FaSignOutAlt, FaMoneyBillWave } from 'react-icons/fa';
+import { FaExchangeAlt, FaGamepad, FaHome, FaUser, FaWallet, FaGift, FaPhone, FaVideo, FaSignOutAlt, FaMoneyBillWave, FaComments } from 'react-icons/fa';
 import SidebarLg from './SidebarLg';
 
 function NavBar() {
@@ -175,6 +175,20 @@ function NavBar() {
             </button>
             </>
             ) : null}
+            {user && (
+              <button
+                onClick={() => {
+                  // This will be handled by the ChatInterface component
+                  const event = new CustomEvent('toggleChat');
+                  window.dispatchEvent(event);
+                }}
+                className="p-2 rounded-lg bg-[#23243a] text-white hover:bg-yellow-400 hover:text-black transition"
+                aria-label="Open chat"
+                title="Global Chat"
+              >
+                <FaComments size={20} />
+              </button>
+            )}
             <LanguageDropdown />
             <button
               onClick={() => setShowSidebar(true)}

@@ -198,7 +198,7 @@ const TwoDChooseOption = ({pathee, frontNumber, backNumber, powerNumber, twentyN
               ))}
             </div>
           </div>
-          <div>
+          {/* <div>
             <p className="text-blue-700 font-bold mb-2">ပတ်သီး</p>
             <div className="flex flex-wrap gap-2 mb-4">
               {pate.map((n) => (
@@ -211,8 +211,8 @@ const TwoDChooseOption = ({pathee, frontNumber, backNumber, powerNumber, twentyN
                 </button>
               ))}
             </div>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <p className="text-blue-700 font-bold mb-2">ထိပ်</p>
             <div className="flex flex-wrap gap-2 mb-4">
               {htate.map((n) => (
@@ -253,7 +253,7 @@ const TwoDChooseOption = ({pathee, frontNumber, backNumber, powerNumber, twentyN
                 </button>
               ))}
             </div>
-          </div>
+          </div> */}
           <div>
             <p className="text-blue-700 font-bold mb-2">20 ဂဏန်း</p>
             <div className="flex flex-wrap gap-2 mb-4">

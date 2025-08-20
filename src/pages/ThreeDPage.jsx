@@ -193,7 +193,7 @@ const ThreeDPage = () => {
       </div>
 
       {/* Time Section */}
-      <div className="max-w-md mx-auto mb-4">
+      {/* <div className="max-w-md mx-auto mb-4">
         <div className="flex justify-between items-center bg-[#12486b] rounded-lg p-3">
           <div className="flex items-center gap-2">
             <BsClock className="w-5 h-5 text-yellow-400" />
@@ -203,10 +203,10 @@ const ThreeDPage = () => {
             <span className="text-sm text-yellow-400">ပိတ်ချိန် {closingTime}</span>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Dream Number Section */}
-      <div className="max-w-md mx-auto mb-6">
+      {/* <div className="max-w-md mx-auto mb-6">
         <div className="relative flex justify-center items-center bg-[#78d6c6] rounded-3xl p-4 shadow-lg" 
              style={{ boxShadow: '0px 0px 21px 0px rgba(240, 252, 172, 0.9)' }}>
           <span className="text-lg font-semibold text-gray-800">အိမ်မက်ဂဏန်း</span>
@@ -214,7 +214,7 @@ const ThreeDPage = () => {
             <span className="text-xs font-bold text-gray-800">3D</span>
           </div>
         </div>
-      </div>
+      </div> */}
 
               {/* Quick Action Buttons */}
         <div className="max-w-md mx-auto mb-6">
@@ -226,10 +226,10 @@ const ThreeDPage = () => {
               အမြန်ရွေးရန်
             </button>
             <button 
-              onClick={() => navigate('/3d/under')}
+              onClick={() => navigate('/3d/winner')}
               className="bg-[#12486b] hover:bg-[#0d3a5a] text-white py-3 px-4 rounded-lg font-medium transition-colors"
             >
-              အောက်၂လုံးထိုးရန်
+              3D Winner
             </button>
             <button 
               onClick={() => navigate('/3d/history')}
@@ -271,13 +271,13 @@ const ThreeDPage = () => {
           >
             ပတ်လည်ထိုးမည်
           </button>
-          <input
+          {/* <input
             type="number"
             value={permutationAmount}
             onChange={(e) => setPermutationAmount(e.target.value)}
             placeholder="ပတ်လည်ငွေပမာဏ"
             className="w-full p-3 border border-gray-500 bg-white text-gray-800 rounded-lg focus:outline-none focus:border-yellow-400"
-          />
+          /> */}
         </div>
 
         {/* Choose Button */}

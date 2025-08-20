@@ -33,7 +33,7 @@ const TwoDPage = () => {
     const lottoHome = [
         { id: 1, title: "မှတ်တမ်း", img: list, link: "/morning-bet-slip" },
         { id: 2, title: "ကံထူးရှင်များ", img: winner, link: "/2d/daily-winner" },
-        { id: 3, title: "ပိတ်ရက်", img: holiday, link: "/2d/holiday" },
+        // { id: 3, title: "ပိတ်ရက်", img: holiday, link: "/2d/holiday" },
     ];
 
     // --- Live 2D Data Integration ---
@@ -101,7 +101,7 @@ const TwoDPage = () => {
           {/* UserWallet removed as per user request */}
 
           {/* Lottery Home Navigation */}
-          <div className="w-full max-w-md mx-auto flex justify-between gap-2 mb-2 sticky top-16 z-30">
+          <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto flex justify-between gap-2 mb-2 sticky top-16 z-30">
             {lottoHome.map((item) => (
               item.title === "မှတ်တမ်း" ? (
                 <button
@@ -126,7 +126,7 @@ const TwoDPage = () => {
           </div>
 
           {/* Current 2D Result Section */}
-          <div className="w-full max-w-md mx-auto bg-white/80 rounded-3xl shadow-2xl mb-4 p-6 flex flex-col items-center py-8 border-2 border-transparent bg-gradient-to-br from-yellow-400/40 via-white/10 to-blue-400/40">
+          <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto bg-white/80 rounded-3xl shadow-2xl mb-4 p-6 flex flex-col items-center py-8 border-2 border-transparent bg-gradient-to-br from-yellow-400/40 via-white/10 to-blue-400/40">
             <h1 className="text-7xl font-extrabold text-blue-500 mb-4 drop-shadow-lg animate-pulse bg-white/60 rounded-2xl px-8 py-2 border-4 border-blue-300/40 shadow-xl">{liveData?.live?.twod ?? "--"}</h1>
             <div className="flex items-center gap-2 text-gray-700 mb-2">
               <BiCheckCircle className="text-teal-400 text-xl" />
@@ -196,7 +196,7 @@ const TwoDPage = () => {
           )}
 
           {/* Time Selection Modal */}
-          <Modal show={show} onHide={handleClose} centered dialogClassName="z-50">
+          <Modal show={show} onHide={handleClose} centered dialogClassName="z-50 w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto">
             <Modal.Header closeButton className="!border-b-0 bg-gradient-to-br from-yellow-400/40 via-white/10 to-blue-400/40 rounded-t-2xl">
               <Modal.Title>
                 <span className="font-bold text-lg text-blue-700 drop-shadow">ထိုးမည့်အချိန် ရွေးပါ။</span>
@@ -227,7 +227,7 @@ const TwoDPage = () => {
           </Modal>
 
           {/* History Session Modal */}
-          <Modal show={showHistoryModal} onHide={handleHistoryModalClose} centered dialogClassName="z-50 mb-32">
+          <Modal show={showHistoryModal} onHide={handleHistoryModalClose} centered dialogClassName="z-50 mb-32 w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto">
             <Modal.Header closeButton className="!border-b-0 bg-gradient-to-br from-yellow-400/40 via-white/10 to-blue-400/40 rounded-t-2xl">
               <Modal.Title>
                 <span className="font-bold text-lg text-blue-700 drop-shadow">
